@@ -28,7 +28,7 @@ const hasErrors = computed(
         <div class="min-h-screen flex items-center justify-center">
             <div class="max-w-md w-full">
                 <form @submit.prevent="submit">
-                    <div class="card card-bordered bg-base-200 shadow-xl">
+                    <div class="card card-bordered bg-base-200 shadow-lg">
                         <div class="card-body">
                             <div
                                 class="items-center gap-2 px-4 py-2 flex shadow-sm justify-center"
@@ -50,11 +50,29 @@ const hasErrors = computed(
                             </div>
                             <div class="mt-4" v-if="hasErrors">
                                 <div class="alert alert-error">
-                                    <ul>
-                                        <li v-for="(error, field) in errors">
-                                            {{ error }}
-                                        </li>
-                                    </ul>
+                                    <div>
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="h-6 w-6"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                            />
+                                        </svg>
+                                        <ul>
+                                            <li
+                                                v-for="(error, field) in errors"
+                                            >
+                                                {{ error }}
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                             <div class="mt-4" v-if="status">
@@ -71,6 +89,7 @@ const hasErrors = computed(
                                     type="email"
                                     placeholder="Email here..."
                                     class="input input-bordered w-full"
+                                    required
                                 />
                             </div>
                             <div class="mt-4 form-control w-full">
@@ -82,6 +101,7 @@ const hasErrors = computed(
                                     type="password"
                                     placeholder="Password here..."
                                     class="input input-bordered w-full"
+                                    required
                                 />
                             </div>
                             <div class="mt-4 card-actions justify-end">

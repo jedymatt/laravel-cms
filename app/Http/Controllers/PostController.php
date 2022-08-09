@@ -26,12 +26,29 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-        return redirect()->route('posts.index');
-        // $post = Post::create($request->validate([
-        //     'title' => 'required',
-        //     'body' => 'required',
-        // ]));
+        $request->validate([
+            'title' => 'required|string',
+            'content' => 'required|string',
+        ]);
 
-        // return redirect()->route('posts.show', $post);
+        // create post with unique slug
+        $post = Post::create([
+            'title' => $request->title,
+            'slug' => $this->getUniquePostSlug($request->title),
+            'content' => $request->content,
+        ]);
+
+        return redirect()->route('posts.index');
+    }
+
+    protected function getUniquePostSlug(string $title)
+    {
+        $slug = \Str::slug($title);
+        $count = Post::where('slug', $slug)->count();
+        if ($count > 0) {
+            $slug .= '-' . $count;
+        }
+
+        return $slug;
     }
 }

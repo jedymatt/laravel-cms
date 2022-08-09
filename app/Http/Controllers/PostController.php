@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Post;
-use Inertia\Inertia;
+use App\Services\PostService;
+use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
     public function index()
     {
         $posts = Post::latest()->get();
+
         return inertia('Posts/Index', compact('posts'));
     }
 
@@ -34,21 +35,10 @@ class PostController extends Controller
         // create post with unique slug
         $post = Post::create([
             'title' => $request->title,
-            'slug' => $this->getUniquePostSlug($request->title),
+            'slug' => PostService::generateUniqueSlug($request->title),
             'content' => $request->content,
         ]);
 
         return redirect()->route('posts.index');
-    }
-
-    protected function getUniquePostSlug(string $title)
-    {
-        $slug = \Str::slug($title);
-        $count = Post::where('slug', $slug)->count();
-        if ($count > 0) {
-            $slug .= '-' . $count;
-        }
-
-        return $slug;
     }
 }

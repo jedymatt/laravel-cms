@@ -14,12 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return inertia('Index');
+Route::middleware('auth')->group(function () {
+    Route::get('/', function () {
+        return inertia('Index');
+    });
+
+    Route::resource('posts', PostController::class)
+        ->only('index', 'show', 'create', 'store')
+        ->scoped([
+            'post' => 'slug',
+        ]);
 });
 
-Route::resource('posts', PostController::class)
-    ->only('index', 'show', 'create', 'store')
-    ->scoped([
-        'post' => 'slug',
-    ]);
+require __DIR__ . '/auth.php';

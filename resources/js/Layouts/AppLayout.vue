@@ -66,7 +66,9 @@ import { Link } from "@inertiajs/inertia-vue3";
                                         </a>
                                     </li>
                                     <li><a>Settings</a></li>
-                                    <li><a>Logout</a></li>
+                                    <li>
+                                        <Link :href="route('logout')" method="post">Logout</Link>
+                                    </li>
                                 </ul>
                             </div>
                         </div>

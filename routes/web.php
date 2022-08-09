@@ -18,16 +18,8 @@ Route::get('/', function () {
     return inertia('Index');
 });
 
-
-Route::get('/posts', [PostController::class, 'index'])
-    ->name('posts.index');
-
-Route::get('/posts/create', [PostController::class, 'create'])
-    ->name('posts.create');
-
-Route::get('/posts/{post:slug}', [PostController::class, 'show'])
-    ->name('posts.show');
-
-Route::post('/posts', [PostController::class, 'store'])
-    ->name('posts.store');
-// Route::resource('posts', PostController::class);
+Route::resource('posts', PostController::class)
+    ->only('index', 'show', 'create', 'store')
+    ->scoped([
+        'post' => 'slug',
+    ]);

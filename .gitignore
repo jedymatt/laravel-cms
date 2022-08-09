@@ -14,3 +14,8 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+
+
+# Laravel IDE helper files
+_ide_helper*.php
+.phpstorm.meta.php

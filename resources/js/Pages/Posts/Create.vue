@@ -1,54 +1,48 @@
 <script lang="ts" setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { useForm } from "@inertiajs/inertia-vue3";
-import { Link } from "@inertiajs/inertia-vue3";
+
+defineProps({
+    status: Number,
+});
 
 const form = useForm({
     title: null,
     content: null,
 });
+
+function submit() {
+    form.post(route("posts.store"));
+}
 </script>
 
 <template>
     <AppLayout>
         <div class="px-12 py-4">
             <!-- post form -->
-            <form
-                class="card card-bordered bg-base-200 shadow-md"
-                :action="route('posts.store')"
-                method="POST"
-                @submit.prevent="onSubmit"
-            >
-                <div class="card-body">
-                    <h1 class="card-title">Create New Post</h1>
-                    <div class="mt-2">
-                        <div class="form-group">
-                            <label for="title">Title</label>
-                            <input
-                                id="title"
-                                type="text"
-                                class="form-control"
-                                name="title"
-                                v-model="form.title"
-                                required
-                            />
-                        </div>
-                        <div class="form-group">
-                            <label for="content">Content</label>
-                            <textarea
-                                id="content"
-                                class="form-control"
-                                name="content"
-                                v-model="form.content"
-                                required
-                            ></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-actions flex justify-end">
-                    <button type="submit" class="btn btn-primary">
+            <form @submit.prevent="submit">
+                <label class="flex justify-end">
+                    <button
+                        type="submit"
+                        :disabled="form.processing"
+                        class="btn btn-primary"
+                    >
                         Create
                     </button>
+                </label>
+                <div class="mt-4 flex flex-col gap-4">
+                    <input
+                        v-model="form.title"
+                        type="text"
+                        placeholder="Title"
+                        class="input input-bordered w-full"
+                    />
+                    <textarea
+                        v-model="form.content"
+                        class="textarea textarea-bordered"
+                        rows="10"
+                        placeholder="Content"
+                    ></textarea>
                 </div>
             </form>
         </div>

@@ -23,3 +23,5 @@ Route::resource('posts', PostController::class)
     ->scoped([
         'post' => 'slug',
     ]);
+
+require __DIR__.'/auth.php';

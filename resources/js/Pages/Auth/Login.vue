@@ -26,7 +26,7 @@ const hasErrors = computed(
 <template>
     <GuestLayout>
         <div class="min-h-screen flex items-center justify-center">
-            <div class="flex-grow-0 max-w-md w-full">
+            <div class="max-w-md w-full">
                 <form @submit.prevent="submit">
                     <div class="card card-bordered bg-base-200 shadow-xl">
                         <div class="card-body">

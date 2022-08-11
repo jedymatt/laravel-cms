@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
-import { useForm } from "@inertiajs/inertia-vue3";
+import { useForm, usePage } from "@inertiajs/inertia-vue3";
+import TipTapEditor from "@/Components/TipTapEditor.vue";
 
 defineProps({
     status: Number,
@@ -24,7 +25,9 @@ function submit() {
                 <label class="flex justify-end">
                     <button
                         type="submit"
-                        :disabled="form.processing"
+                        :class="{
+                            loading: form.processing,
+                        }"
                         class="btn btn-primary"
                     >
                         Create
@@ -37,12 +40,9 @@ function submit() {
                         placeholder="Title"
                         class="input input-bordered w-full"
                     />
-                    <textarea
-                        v-model="form.content"
-                        class="textarea textarea-bordered"
-                        rows="10"
-                        placeholder="Content"
-                    ></textarea>
+                    <div class="textarea textarea-bordered">
+                        <TipTapEditor v-model="form.content" />
+                    </div>
                 </div>
             </form>
         </div>

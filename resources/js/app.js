@@ -1,6 +1,10 @@
 import './bootstrap';
 import '../css/app.css';
 
+import './fontawesome';
+
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
@@ -20,7 +24,9 @@ createInertiaApp({
         return createApp({ render: () => h(app, props) })
             .use(plugin)
             .use(ZiggyVue, Ziggy)
-            .mount(el);
+            .component('font-awesome-icon', FontAwesomeIcon)
+            .mount(el)
+
     },
 });
 

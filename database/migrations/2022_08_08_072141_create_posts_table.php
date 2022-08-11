@@ -19,6 +19,7 @@ return new class() extends Migration
             $table->string('title');
             $table->string('description')->nullable();
             $table->longText('content')->nullable();
+            $table->string('cover_image_url')->nullable();
             $table->foreignId('user_id')->nullable()->constrained();
             $table->dateTime('published_at')->nullable();
             $table->timestamps();

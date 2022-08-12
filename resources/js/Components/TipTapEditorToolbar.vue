@@ -35,7 +35,7 @@ function addImage(e: Event) {
 </script>
 
 <template>
-    <div class="flex flex-row overflow-x-scroll w-full gap-2">
+    <div class="flex flex-row w-full gap-2">
         <div class="btn-group">
             <button
                 @click="editor.chain().focus().toggleBold().run()"

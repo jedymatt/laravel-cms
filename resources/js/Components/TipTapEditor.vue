@@ -42,7 +42,7 @@ const editor = new Editor({
     content: props.modelValue,
     editorProps: {
         attributes: {
-            class: "prose max-w-none textarea textarea-bordered",
+            class: "prose max-w-none textarea textarea-bordered min-h-[14rem]",
         },
     },
     onUpdate: ({ editor }) => {

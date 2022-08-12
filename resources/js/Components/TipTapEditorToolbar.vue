@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { Editor } from "@tiptap/vue-3";
 
-
 defineProps({
     editor: {
         type: Editor,
@@ -107,9 +106,3 @@ defineProps({
         </label>
     </div>
 </template>
-
-<style scoped>
-.material-symbols-outlined {
-    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
-}
-</style>

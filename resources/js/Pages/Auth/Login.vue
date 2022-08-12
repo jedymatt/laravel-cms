@@ -7,10 +7,21 @@ defineProps({
     status: String,
 });
 
-const form = useForm({
-    email: null,
-    password: null,
-});
+const useTestUser = usePage().props.value.appEnv !== "production";
+
+const testUser = {
+    email: "test@example.com",
+    password: "password",
+};
+
+const form = useForm(
+    useTestUser
+        ? testUser
+        : {
+              email: "",
+              password: "",
+          }
+);
 
 function submit() {
     form.post(route("login"));
@@ -27,6 +38,7 @@ const hasErrors = computed(
     <GuestLayout>
         <div class="min-h-screen flex items-center justify-center">
             <div class="max-w-md w-full">
+                <TestUserBanner />
                 <form @submit.prevent="submit">
                     <div class="card card-bordered bg-base-200 shadow-lg">
                         <div class="card-body">

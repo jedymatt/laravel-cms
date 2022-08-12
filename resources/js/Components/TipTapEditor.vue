@@ -3,7 +3,7 @@
         <div class="flex flex-row gap-2">
             <TipTapEditorToolbar :editor="editor" />
         </div>
-        <div class="mt-4">
+        <div class="mt-4 textarea textarea-bordered w-full">
             <EditorContent :editor="editor" />
         </div>
     </div>

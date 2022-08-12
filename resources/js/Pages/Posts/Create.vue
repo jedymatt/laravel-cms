@@ -40,7 +40,7 @@ function submit() {
                         placeholder="Title"
                         class="input input-bordered w-full"
                     />
-                    <div class="textarea textarea-bordered">
+                    <div class="mt-2">
                         <TipTapEditor v-model="form.content" />
                     </div>
                 </div>

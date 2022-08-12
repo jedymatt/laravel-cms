@@ -1,12 +1,30 @@
 <script lang="ts" setup>
 import { Editor } from "@tiptap/vue-3";
 
-defineProps({
+const props = defineProps({
     editor: {
         type: Editor,
         required: true,
     },
 });
+
+function toggleTextAlignLeft() {
+    props.editor.isActive({ textAlign: "left" })
+        ? props.editor.chain().focus().unsetTextAlign().run()
+        : props.editor.chain().focus().setTextAlign("left").run();
+}
+
+function toggleTextAlignCenter() {
+    props.editor.isActive({ textAlign: "center" })
+        ? props.editor.chain().focus().unsetTextAlign().run()
+        : props.editor.chain().focus().setTextAlign("center").run();
+}
+
+function toggleTextAlignRight() {
+    props.editor.isActive({ textAlign: "right" })
+        ? props.editor.chain().focus().unsetTextAlign().run()
+        : props.editor.chain().focus().setTextAlign("right").run();
+}
 </script>
 
 <template>
@@ -79,6 +97,39 @@ defineProps({
             >
                 <font-awesome-icon icon="fa-solid fa-heading" />
                 <font-awesome-icon icon="fa-solid fa-3" />
+            </button>
+        </div>
+
+        <div class="btn-group">
+            <button
+                @click="toggleTextAlignLeft()"
+                class="btn"
+                :class="{
+                    'btn-active': editor.isActive({ textAlign: 'left' }),
+                }"
+                type="button"
+            >
+                <font-awesome-icon icon="fa-solid fa-align-left" />
+            </button>
+            <button
+                @click="toggleTextAlignCenter()"
+                class="btn"
+                :class="{
+                    'btn-active': editor.isActive({ textAlign: 'center' }),
+                }"
+                type="button"
+            >
+                <font-awesome-icon icon="fa-solid fa-align-center" />
+            </button>
+            <button
+                @click="toggleTextAlignRight()"
+                class="btn"
+                :class="{
+                    'btn-active': editor.isActive({ textAlign: 'right' }),
+                }"
+                type="button"
+            >
+                <font-awesome-icon icon="fa-solid fa-align-right" />
             </button>
         </div>
 

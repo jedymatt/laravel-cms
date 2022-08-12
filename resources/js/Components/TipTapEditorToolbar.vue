@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 import { Editor } from "@tiptap/vue-3";
+import { ref, Teleport } from "vue";
+
+const showImageModal = ref(false);
 
 const props = defineProps({
     editor: {
@@ -8,22 +11,26 @@ const props = defineProps({
     },
 });
 
-function toggleTextAlignLeft() {
-    props.editor.isActive({ textAlign: "left" })
+function toggleTextAlign(alignment: "left" | "center" | "right") {
+    props.editor.isActive({ textAlign: alignment })
         ? props.editor.chain().focus().unsetTextAlign().run()
-        : props.editor.chain().focus().setTextAlign("left").run();
+        : props.editor.chain().focus().setTextAlign(alignment).run();
 }
 
-function toggleTextAlignCenter() {
-    props.editor.isActive({ textAlign: "center" })
-        ? props.editor.chain().focus().unsetTextAlign().run()
-        : props.editor.chain().focus().setTextAlign("center").run();
-}
+function addImage(e: Event) {
+    const file: File = (e.target as HTMLInputElement).files[0];
 
-function toggleTextAlignRight() {
-    props.editor.isActive({ textAlign: "right" })
-        ? props.editor.chain().focus().unsetTextAlign().run()
-        : props.editor.chain().focus().setTextAlign("right").run();
+    if (!file) {
+        return;
+    }
+
+    showImageModal.value = false;
+
+    props.editor
+        .chain()
+        .focus()
+        .setImage({ src: URL.createObjectURL(file) })
+        .run();
 }
 </script>
 
@@ -100,9 +107,10 @@ function toggleTextAlignRight() {
             </button>
         </div>
 
+        <!-- Alignments -->
         <div class="btn-group">
             <button
-                @click="toggleTextAlignLeft()"
+                @click="toggleTextAlign('left')"
                 class="btn"
                 :class="{
                     'btn-active': editor.isActive({ textAlign: 'left' }),
@@ -112,7 +120,7 @@ function toggleTextAlignRight() {
                 <font-awesome-icon icon="fa-solid fa-align-left" />
             </button>
             <button
-                @click="toggleTextAlignCenter()"
+                @click="toggleTextAlign('center')"
                 class="btn"
                 :class="{
                     'btn-active': editor.isActive({ textAlign: 'center' }),
@@ -122,7 +130,7 @@ function toggleTextAlignRight() {
                 <font-awesome-icon icon="fa-solid fa-align-center" />
             </button>
             <button
-                @click="toggleTextAlignRight()"
+                @click="toggleTextAlign('right')"
                 class="btn"
                 :class="{
                     'btn-active': editor.isActive({ textAlign: 'right' }),
@@ -134,26 +142,39 @@ function toggleTextAlignRight() {
         </div>
 
         <!-- The button to open modal -->
-        <label for="my-modal-4" class="btn modal-button">
+        <button class="btn" type="button" @click="showImageModal = true">
             <font-awesome-icon icon="fa-solid fa-image" />
-        </label>
+        </button>
 
         <!-- Put this part before </body> tag -->
-        <input type="checkbox" id="my-modal-4" class="modal-toggle" />
-        <label for="my-modal-4" class="modal cursor-pointer">
-            <label class="modal-box relative" for="">
-                <label
-                    for="my-modal-4"
-                    class="btn btn-sm btn-circle absolute right-2 top-2"
-                    >✕</label
-                >
-                <h3 class="text-2xl font-bold">Upload Image</h3>
-                <div class="py-4">
-                    <div class="min-h-16">
-                        <input type="file" class="input input-ghost w-full" />
-                    </div>
-                </div>
-            </label>
-        </label>
+        <Teleport to="body">
+            <div v-if="showImageModal">
+                <input
+                    type="checkbox"
+                    id="my-modal-4"
+                    class="modal-toggle"
+                    v-model="showImageModal"
+                />
+                <label for="my-modal-4" class="modal cursor-pointer">
+                    <label class="modal-box relative" for="">
+                        <label
+                            for="my-modal-4"
+                            class="btn btn-sm btn-circle absolute right-2 top-2"
+                            >✕</label
+                        >
+                        <h3 class="text-2xl font-bold">Upload Image</h3>
+                        <div class="py-4">
+                            <div class="min-h-16">
+                                <input
+                                    @change="addImage($event)"
+                                    type="file"
+                                    class="input input-ghost w-full"
+                                />
+                            </div>
+                        </div>
+                    </label>
+                </label>
+            </div>
+        </Teleport>
     </div>
 </template>

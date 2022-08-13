@@ -2,12 +2,6 @@
 import { Link } from "@inertiajs/inertia-vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
 
-type Post = {
-    id: number;
-    title: string;
-    content: string;
-};
-
 defineProps({
     posts: Array<Post>,
 });
@@ -44,11 +38,22 @@ defineProps({
                     :key="post.id"
                     class="card card-bordered bg-base-200 shadow-md"
                 >
+                    <figure v-if="post.cover_image_url !== null">
+                        <img
+                            class="object-cover object-center h-48 w-full"
+                            :src="post.cover_image_url"
+                            :alt="post.title"
+                        />
+                    </figure>
                     <div class="card-body">
-                        <h1 class="card-title">{{ post.title}}</h1>
-                        <p class="mt-2">{{ post.content }}</p>
+                        <h1 class="card-title">{{ post.title }}</h1>
                         <div class="mt-2 card-actions flex justify-end">
-                            <Link :href="route('posts.show', post.slug)" class="btn btn-primary">Read More</Link>
+                            <Link
+                                :href="route('posts.show', post.slug)"
+                                class="btn btn-primary"
+                            >
+                                Read More
+                            </Link>
                         </div>
                     </div>
                 </div>

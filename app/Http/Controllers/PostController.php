@@ -29,16 +29,21 @@ class PostController extends Controller
     {
         $request->validate([
             'title' => 'required|string',
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
             'content' => 'required|string',
         ]);
 
-        // create post with unique slug
+        $coverImageFile = $request->file('cover_image');
+
+        $coverImageUrl = PostService::uploadCoverImage($coverImageFile);
+
         $post = Post::create([
             'title' => $request->title,
+            'cover_image_url' => $coverImageUrl,
             'slug' => PostService::generateUniqueSlug($request->title),
             'content' => $request->content,
         ]);
 
-        return redirect()->route('posts.index');
+        return redirect()->route('posts.show', compact('post'));
     }
 }

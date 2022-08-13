@@ -21,6 +21,9 @@ const contentHtml = computed(() => marked(props.post.content));
                 <article
                     class="prose prose-sm sm:prose lg:prose-lg xl:prose-xl"
                 >
+                    <div v-if="post.cover_image_url !== null">
+                        <img :src="post.cover_image_url" :alt="post.slug" />
+                    </div>
                     <h1>
                         {{ post.title }}
                     </h1>

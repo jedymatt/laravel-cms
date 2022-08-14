@@ -20,7 +20,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::resource('posts', PostController::class)
-        ->only('index', 'show', 'create', 'store')
+        ->only('index', 'show', 'create', 'store', 'destroy')
         ->scoped([
             'post' => 'slug',
         ]);

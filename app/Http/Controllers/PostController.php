@@ -35,13 +35,17 @@ class PostController extends Controller
 
         $coverImageFile = $request->file('cover_image');
 
-        $coverImageUrl = PostService::uploadCoverImage($coverImageFile);
 
         $post = Post::create([
             'title' => $request->title,
-            'cover_image_url' => $coverImageUrl,
             'slug' => PostService::generateUniqueSlug($request->title),
             'content' => $request->content,
+        ]);
+
+        $coverImageUrl = PostService::uploadCoverImage($post, $coverImageFile);
+
+        $post->update([
+            'cover_image_url' => $coverImageUrl,
         ]);
 
         return redirect()->route('posts.show', compact('post'));
@@ -50,6 +54,8 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
+
+        // TODO: delete images related to the post
 
         return redirect()->route('posts.index');
     }

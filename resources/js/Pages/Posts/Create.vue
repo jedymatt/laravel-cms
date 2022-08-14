@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
-import { useForm, usePage } from "@inertiajs/inertia-vue3";
+import { useForm } from "@inertiajs/inertia-vue3";
 import TipTapEditor from "@/Components/TipTapEditor.vue";
 
 defineProps({

@@ -148,7 +148,7 @@ function addImage(e: Event) {
 
         <!-- Put this part before </body> tag -->
         <Teleport to="body">
-            <div v-if="showImageModal">
+            <div>
                 <input
                     type="checkbox"
                     id="my-modal-4"

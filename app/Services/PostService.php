@@ -13,11 +13,15 @@ class PostService
         $slug = \Str::slug($title);
         $count = Post::where('slug', $slug)->count();
 
-        return $count ? $slug.'-'.$count : $slug;
+        return $count ? $slug . '-' . $count : $slug;
     }
 
-    public static function uploadCoverImage(?UploadedFile $file): ?string
+    public static function uploadCoverImage(Post $post, ?UploadedFile $file): ?string
     {
-        return $file?->storeOnCloudinary('cover-images')->getSecurePath();
+        if ($file === null) {
+            return null;
+        }
+
+        return $file->storeOnCloudinary('images/' . $post->id)->getSecurePath();
     }
 }

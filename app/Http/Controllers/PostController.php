@@ -35,7 +35,6 @@ class PostController extends Controller
 
         $coverImageFile = $request->file('cover_image');
 
-
         $post = Post::create([
             'title' => $request->title,
             'slug' => PostService::generateUniqueSlug($request->title),

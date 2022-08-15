@@ -52,9 +52,7 @@ class PostController extends Controller
 
     public function destroy(Post $post)
     {
-        $post->delete();
-
-        // TODO: delete images related to the post
+        PostService::deletePost($post);
 
         return redirect()->route('posts.index');
     }

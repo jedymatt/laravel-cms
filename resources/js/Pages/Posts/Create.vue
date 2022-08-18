@@ -1,20 +1,37 @@
 <script lang="ts" setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
-import { useForm } from "@inertiajs/inertia-vue3";
+import { useForm, usePage } from "@inertiajs/inertia-vue3";
 import TipTapEditor from "@/Components/TipTapEditor.vue";
+import { Inertia } from "@inertiajs/inertia";
 
-defineProps({
-    status: Number,
+const props = defineProps({
+    image_url: String,
+    flash: Object,
 });
 
 const form = useForm({
     title: null,
     content: null,
     cover_image: null,
+    cover_image_url: null,
 });
 
 function submit() {
     form.post(route("posts.store"));
+}
+
+const uploadImageForm = useForm({
+    image: null,
+});
+
+function uploadImage(e: Event) {
+    uploadImageForm.image = (e.target as HTMLInputElement).files[0];
+
+    uploadImageForm.post(route("upload-image"), {
+        onSuccess: () => {
+            form.cover_image_url = props.flash.message.image_url;
+        },
+    });
 }
 </script>
 
@@ -70,9 +87,7 @@ function submit() {
                             <input
                                 type="file"
                                 class="input input-ghost file:btn"
-                                @input="
-                                    form.cover_image = $event.target.files[0]
-                                "
+                                @input="uploadImage($event)"
                                 ref="fileInput"
                             />
                             <button

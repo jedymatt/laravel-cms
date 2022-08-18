@@ -29,7 +29,7 @@ class PostController extends Controller
     {
         $request->validate([
             'title' => 'required|string',
-            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+            'cover_image_url' => 'required|url',
             'content' => 'required|string',
         ]);
 
@@ -38,13 +38,8 @@ class PostController extends Controller
         $post = Post::create([
             'title' => $request->title,
             'slug' => PostService::generateUniqueSlug($request->title),
+            'cover_image_url' => $request->cover_image_url,
             'content' => $request->content,
-        ]);
-
-        $coverImageUrl = PostService::uploadCoverImage($post, $coverImageFile);
-
-        $post->update([
-            'cover_image_url' => $coverImageUrl,
         ]);
 
         return redirect()->route('posts.show', compact('post'));
@@ -61,10 +56,12 @@ class PostController extends Controller
             'title' => 'required|string',
             'content' => 'required|string',
         ]);
+
         $post->update([
             'title' => $request->title,
             'content' => $request->content,
         ]);
+
         return redirect()->route('posts.show', compact('post'));
     }
 

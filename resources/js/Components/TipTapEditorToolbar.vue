@@ -17,20 +17,18 @@ function toggleTextAlign(alignment: "left" | "center" | "right") {
         : props.editor.chain().focus().setTextAlign(alignment).run();
 }
 
-function addImage(e: Event) {
-    const file: File = (e.target as HTMLInputElement).files[0];
+const imageURL = ref("");
 
-    if (!file) {
+function addImage(): void {
+    const url = imageURL.value;
+
+    if (!url) {
         return;
     }
 
-    showImageModal.value = false;
+    props.editor.chain().focus().setImage({ src: url }).run();
 
-    props.editor
-        .chain()
-        .focus()
-        .setImage({ src: URL.createObjectURL(file) })
-        .run();
+    imageURL.value = "";
 }
 </script>
 
@@ -162,14 +160,24 @@ function addImage(e: Event) {
                             class="btn btn-sm btn-circle absolute right-2 top-2"
                             >✕</label
                         >
-                        <h3 class="text-2xl font-bold">Upload Image</h3>
+                        <h3 class="text-2xl font-bold">Add Image URL</h3>
                         <div class="py-4">
-                            <div class="min-h-16">
+                            <div class="min-h-16 flex flex-row gap-4">
                                 <input
-                                    @change="addImage($event)"
-                                    type="file"
-                                    class="input input-ghost w-full"
+                                    type="url"
+                                    class="flex-grow input input-bordered w-full"
+                                    placeholder="Image URL"
+                                    v-model="imageURL"
                                 />
+                                <button
+                                    class="btn btn-primary"
+                                    @click="
+                                        addImage();
+                                        showImageModal = false;
+                                    "
+                                >
+                                    Add
+                                </button>
                             </div>
                         </div>
                     </label>

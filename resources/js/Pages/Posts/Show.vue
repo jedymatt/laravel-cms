@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { ref, Teleport } from "vue";
-import { useForm } from "@inertiajs/inertia-vue3";
+import { useForm, Link } from "@inertiajs/inertia-vue3";
 
 const props = defineProps({
     post: Object,
@@ -20,7 +20,12 @@ function deletePost() {
     <AppLayout>
         <div class="px-12 py-4">
             <div class="flex justify-end gap-2">
-                <button class="btn btn-secondary">Edit</button>
+                <Link
+                    :href="route('posts.edit', post.slug)"
+                    class="btn btn-secondary"
+                >
+                    Edit
+                </Link>
                 <!-- The button to open modal -->
                 <button class="btn btn-error" @click="showModal = true">
                     Delete

@@ -50,6 +50,24 @@ class PostController extends Controller
         return redirect()->route('posts.show', compact('post'));
     }
 
+    public function edit(Post $post)
+    {
+        return inertia('Posts/Edit', compact('post'));
+    }
+
+    public function update(Request $request, Post $post)
+    {
+        $request->validate([
+            'title' => 'required|string',
+            'content' => 'required|string',
+        ]);
+        $post->update([
+            'title' => $request->title,
+            'content' => $request->content,
+        ]);
+        return redirect()->route('posts.show', compact('post'));
+    }
+
     public function destroy(Post $post)
     {
         PostService::deletePost($post);
